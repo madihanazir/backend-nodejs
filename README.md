@@ -12,20 +12,16 @@ Ensure you have the following installed:</p>
 MongoDB (either local installation or use a cloud database like MongoDB Atlas)
 Getting Started
 Clone the repository to your local machine:</p>
-<p>bash
-Copy
+
 git clone <a href="https://github.com/madihanazir/backend-nodejs.git">https://github.com/madihanazir/backend-nodejs.git</a>
 Navigate to the project directory:</p>
-<p>bash
-Copy
+
 cd backend-nodejs
 Install the required dependencies:</p>
-<p>bash
-Copy
+
 npm install
 Create a .env file to configure your environment variables, such as your MongoDB connection string.</p>
 <p>Run the development server:</p>
-<p>bash
-Copy
+
 npm start
 The server should now be running at <a href="http://localhost:3000">http://localhost:3000</a>.</p>
