@@ -9,7 +9,7 @@ const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "world",
-  password: "123456",
+  password: "123madiha",
   port: 5432,
 });
 db.connect();
@@ -25,12 +25,20 @@ let users = [
 ];
 
 async function checkVisisted() {
-  const result = await db.query("SELECT country_code FROM visited_countries");
+  const result = await db.query("SELECT country_code FROM visited_countries JOIN users ON users.id = user_id WHERE user_id = $1; ",
+    [currentUserId]
+  );
+
   let countries = [];
   result.rows.forEach((country) => {
     countries.push(country.country_code);
   });
   return countries;
+}
+async function getCurrentUser() {
+  const result = await db.query("SELECT * FROM users");
+  users = result.rows;
+  return users.find((user) => user.id == currentUserId);
 }
 app.get("/", async (req, res) => {
   const countries = await checkVisisted();
@@ -43,7 +51,7 @@ app.get("/", async (req, res) => {
 });
 app.post("/add", async (req, res) => {
   const input = req.body["country"];
-
+  const currentUser = await getCurrentUser();
   try {
     const result = await db.query(
       "SELECT country_code FROM countries WHERE LOWER(country_name) LIKE '%' || $1 || '%';",
@@ -54,7 +62,7 @@ app.post("/add", async (req, res) => {
     const countryCode = data.country_code;
     try {
       await db.query(
-        "INSERT INTO visited_countries (country_code) VALUES ($1)",
+        "INSERT INTO visited_countries (country_code,) VALUES ($1)",
         [countryCode]
       );
       res.redirect("/");
